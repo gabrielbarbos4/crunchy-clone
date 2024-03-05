@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,16 +27,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.crunchy_clone.R
+import com.example.crunchy_clone.ui.shared.components.CrunchyButton
 import com.example.crunchy_clone.ui.shared.components.CrunchyInput
+import com.example.crunchy_clone.ui.shared.components.CrunchyOutlineButton
 import com.example.crunchy_clone.ui.shared.components.Logo
 import com.example.crunchy_clone.ui.theme.Neutral100
+import com.example.crunchy_clone.ui.theme.Neutral400
+import com.example.crunchy_clone.ui.theme.Neutral800
 import com.example.crunchy_clone.ui.theme.Neutral850
 import com.example.crunchy_clone.ui.theme.Neutral900
 import com.example.crunchy_clone.ui.theme.Orange400
@@ -86,7 +95,7 @@ fun RegisterScreenContent() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             ConstraintLayout {
-                val (logo, inputContainer, subscriptionInfo) = createRefs()
+                val (logo, inputContainer, subscriptionInfo, terms, button, haveAccount) = createRefs()
 
                 LogoConstraintWrapper(modifier = Modifier
                     .constrainAs(logo) { }
@@ -100,6 +109,14 @@ fun RegisterScreenContent() {
                     Modifier.constrainAs(subscriptionInfo) {
                         top.linkTo(inputContainer.bottom, margin = 16.dp)
                     },
+                )
+                TermsConstraintWrapper(Modifier.constrainAs(terms) {
+                        top.linkTo(subscriptionInfo.bottom, margin = 20.dp)
+                    }
+                )
+                CreateAccountButtonConstraintWrapper(Modifier.constrainAs(button) {
+                        top.linkTo(terms.bottom, margin = 20.dp)
+                    }
                 )
             }
         }
@@ -151,4 +168,38 @@ fun InputConstraintWrapper(modifier: Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
         CrunchyInput(label = stringResource(id = R.string.password))
     }
+}
+
+@Composable
+fun TermsConstraintWrapper(modifier: Modifier) {
+    Text(
+        buildAnnotatedString {
+            append("By creating your account with us, you are agreeign to our ")
+            withStyle(style = SpanStyle(color = Orange400)) {
+                append("Terms")
+            }
+            append(" & ")
+            withStyle(style = SpanStyle(color = Orange400)) {
+                append("Privacy Policy")
+            }
+            append(", and you confirm that you are at least 16 years of age")
+        },
+        modifier = modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center,
+        color = Neutral400,
+        style = Typography.labelSmall,
+        fontWeight = FontWeight(800)
+    )
+}
+
+@Composable
+fun CreateAccountButtonConstraintWrapper(modifier: Modifier) {
+    CrunchyOutlineButton(
+        modifier = modifier,
+        borderColor = Neutral800,
+        textColor = Neutral800,
+        text = stringResource(id = R.string.create_account).uppercase(),
+        shape = RoundedCornerShape(0),
+        onClick = {}
+    )
 }

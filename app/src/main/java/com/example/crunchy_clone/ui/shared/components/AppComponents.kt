@@ -92,6 +92,7 @@ fun CrunchyButton(
 
 @Composable
 fun CrunchyOutlineButton(
+    modifier: Modifier,
     text: String,
     textColor: Color,
     borderColor: Color,
@@ -100,7 +101,7 @@ fun CrunchyOutlineButton(
 ) {
     OutlinedButton(
         onClick = { onClick() },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .heightIn(40.dp),
         colors = ButtonDefaults.buttonColors(Color.Transparent),

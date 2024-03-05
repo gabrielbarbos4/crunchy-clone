@@ -90,6 +90,7 @@ fun Footer(onRegisterButtonClick: () -> Unit, onLoginButtonClick: () -> Unit) {
             textColor = Neutral900
         ) { onRegisterButtonClick() }
         CrunchyOutlineButton(
+            modifier = Modifier,
             text = stringResource(id = R.string.login).uppercase(),
             textColor = Orange400,
             borderColor = Orange400,
