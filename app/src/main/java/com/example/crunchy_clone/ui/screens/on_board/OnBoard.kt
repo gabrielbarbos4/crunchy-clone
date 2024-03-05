@@ -1,58 +1,69 @@
 package com.example.crunchy_clone.ui.screens.on_board
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.crunchy_clone.R
-import com.example.crunchy_clone.ui.theme.Neutral900
-import com.example.crunchy_clone.ui.theme.Orange400
-import com.example.crunchy_clone.ui.theme.Typography
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.crunchy_clone.R
 import com.example.crunchy_clone.ui.shared.components.CrunchyButton
+import com.example.crunchy_clone.ui.shared.components.CrunchyOutlineButton
 import com.example.crunchy_clone.ui.shared.components.Logo
 import com.example.crunchy_clone.ui.theme.Neutral400
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue // only if using var
-import androidx.compose.ui.res.stringResource
-import com.example.crunchy_clone.ui.shared.components.CrunchyOutlineButton
+import com.example.crunchy_clone.ui.theme.Neutral900
+import com.example.crunchy_clone.ui.theme.Orange400
+import com.example.crunchy_clone.ui.theme.Typography
 
-@Preview(showBackground = true)
+
 @Composable
-fun OnBoard() {
-    Column(
-        Modifier.background(color = Neutral900).fillMaxSize().padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+fun OnBoard(
+    onRegisterButtonClick: () -> Unit,
+    onLoginButtonClick: () -> Unit
+) {
+    Surface(
+        Modifier
+            .background(color = Neutral900)
+            .fillMaxSize()
     ) {
-        Logo()
-        OnBoardImage()
-        Footer()
+        Column(
+            Modifier
+                .background(color = Neutral900)
+                .fillMaxSize()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Logo()
+            OnBoardImage()
+            Footer(onRegisterButtonClick, onLoginButtonClick)
+        }
     }
+}
+
+@Preview
+@Composable
+fun OnBoardPreview() {
+    OnBoard(onLoginButtonClick = {}, onRegisterButtonClick = {})
 }
 
 @Composable
@@ -68,7 +79,7 @@ fun OnBoardImage() {
 }
 
 @Composable
-fun Footer() {
+fun Footer(onRegisterButtonClick: () -> Unit, onLoginButtonClick: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.Bottom
@@ -77,13 +88,13 @@ fun Footer() {
             color = Orange400,
             text = stringResource(id = R.string.create_account).uppercase(),
             textColor = Neutral900
-        ) { }
+        ) { onRegisterButtonClick() }
         CrunchyOutlineButton(
             text = stringResource(id = R.string.login).uppercase(),
             textColor = Orange400,
             borderColor = Orange400,
             shape = RoundedCornerShape(0),
-        ) { }
+        ) { onLoginButtonClick() }
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
