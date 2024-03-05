@@ -18,6 +18,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -32,43 +34,24 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import com.example.crunchy_clone.ui.shared.components.CrunchyButton
+import com.example.crunchy_clone.ui.shared.components.Logo
 import com.example.crunchy_clone.ui.theme.Neutral400
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue // only if using var
+import androidx.compose.ui.res.stringResource
+import com.example.crunchy_clone.ui.shared.components.CrunchyOutlineButton
 
 @Preview(showBackground = true)
 @Composable
 fun OnBoard() {
     Column(
-        Modifier
-            .background(color = Neutral900)
-            .fillMaxSize()
-            .padding(20.dp),
+        Modifier.background(color = Neutral900).fillMaxSize().padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Logo()
         OnBoardImage()
         Footer()
-    }
-}
-
-@Composable
-fun Logo() {
-    Row(
-        Modifier.padding(top = 20.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            modifier = Modifier
-                .height(36.dp)
-                .width(36.dp),
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "image logo",
-        )
-        Text(
-            text = "crunchyroll",
-            color = Orange400,
-            style = Typography.titleLarge,
-            fontWeight = FontWeight(900)
-        )
     }
 }
 
@@ -90,63 +73,49 @@ fun Footer() {
         modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.Bottom
     ) {
-        TextButton(
-            onClick = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = Orange400)
-                .height(40.dp)
-        ) {
-            Text(
-                text = "CREATE ACCOUNT",
-                color = Neutral900,
-                style = Typography.labelMedium,
-                fontWeight = FontWeight(800)
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedButton(
-            onClick = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp),
-            border = BorderStroke(2.dp, Orange400),
-            shape = RoundedCornerShape(0)
-        ) {
-            Text(
-                text = "LOG IN",
-                color = Orange400,
-                style = Typography.labelMedium,
-                fontWeight = FontWeight(800)
-            )
-        }
+        CrunchyButton(
+            color = Orange400,
+            text = stringResource(id = R.string.create_account).uppercase(),
+            textColor = Neutral900
+        ) { }
+        CrunchyOutlineButton(
+            text = stringResource(id = R.string.login).uppercase(),
+            textColor = Orange400,
+            borderColor = Orange400,
+            shape = RoundedCornerShape(0),
+        ) { }
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            text = "BROWSE CRUNCHYROLL",
+            text = stringResource(id = R.string.browse).uppercase(),
             color = Orange400,
             style = Typography.labelMedium,
             fontWeight = FontWeight(800)
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Text(
-            buildAnnotatedString {
-                append("By using Crunchyroll you are agreeign to our ")
-                withStyle(style = SpanStyle(color = Orange400)) {
-                    append("Terms")
-                }
-                append(" & ")
-                withStyle(style = SpanStyle(color = Orange400)) {
-                    append("Privacy Policy")
-                }
-                append(", and you confirm that you are at least 16 years of age")
-            },
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            color = Neutral400,
-            style = Typography.labelSmall,
-            fontWeight = FontWeight(800)
-        )
+        Terms()
     }
+}
+
+@Composable
+fun Terms() {
+    Text(
+        buildAnnotatedString {
+            append("By using Crunchyroll you are agreeign to our ")
+            withStyle(style = SpanStyle(color = Orange400)) {
+                append("Terms")
+            }
+            append(" & ")
+            withStyle(style = SpanStyle(color = Orange400)) {
+                append("Privacy Policy")
+            }
+            append(", and you confirm that you are at least 16 years of age")
+        },
+        modifier = Modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center,
+        color = Neutral400,
+        style = Typography.labelSmall,
+        fontWeight = FontWeight(800)
+    )
 }
