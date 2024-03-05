@@ -45,7 +45,9 @@ import com.example.crunchy_clone.ui.theme.Typography
 fun Logo() {
     Row(Modifier.padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically) {
         Image(
-            modifier = Modifier.height(36.dp).width(36.dp),
+            modifier = Modifier
+                .height(36.dp)
+                .width(36.dp),
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "image logo",
         )
@@ -60,29 +62,32 @@ fun Logo() {
 
 @Composable
 fun CrunchyButton(
+    enabled: Boolean = true,
+    modifier: Modifier,
     text: String,
     textColor: Color,
     color: Color,
     onClick: () -> Unit
 ) {
+    val finalColor = if(enabled) color else Color.Transparent
+    val finalBorder = if(enabled) null else BorderStroke(2.dp,Neutral600)
+    val finalTextColor = if(enabled) textColor else Neutral600
 
     TextButton(
         onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth().heightIn(40.dp).padding(0.dp),
+        modifier = modifier.fillMaxWidth().heightIn(40.dp).padding(0.dp),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
         shape = RoundedCornerShape(0),
-        contentPadding = PaddingValues()
+        contentPadding = PaddingValues(),
+        border = finalBorder
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-                .background(color = color),
+            modifier = Modifier.fillMaxWidth().height(40.dp).background(color = finalColor),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = text,
-                color = textColor,
+                color = finalTextColor,
                 style = Typography.labelMedium,
                 fontWeight = FontWeight(800)
             )
@@ -133,7 +138,9 @@ fun CrunchyInput(label: String) {
     }
 
     TextField(
-        modifier = Modifier.fillMaxWidth().heightIn(48.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(48.dp),
         label = { Text(text = label) },
         value = textValue.value,
         colors = TextFieldDefaults.textFieldColors(

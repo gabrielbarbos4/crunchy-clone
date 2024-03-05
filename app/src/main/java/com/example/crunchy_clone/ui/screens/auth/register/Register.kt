@@ -102,7 +102,7 @@ fun RegisterScreenContent() {
                 )
                 InputConstraintWrapper(
                     modifier = Modifier.constrainAs(inputContainer) {
-                        top.linkTo(logo.bottom, margin = 20.dp)
+                        top.linkTo(logo.bottom, margin = 24.dp)
                     }
                 )
                 SubscriptionConstraintWrapper(
@@ -116,6 +116,10 @@ fun RegisterScreenContent() {
                 )
                 CreateAccountButtonConstraintWrapper(Modifier.constrainAs(button) {
                         top.linkTo(terms.bottom, margin = 20.dp)
+                    }
+                )
+                HaveAccountConstraintWrapper(Modifier.constrainAs(haveAccount) {
+                        top.linkTo(button.bottom, margin = 42.dp)
                     }
                 )
             }
@@ -194,12 +198,33 @@ fun TermsConstraintWrapper(modifier: Modifier) {
 
 @Composable
 fun CreateAccountButtonConstraintWrapper(modifier: Modifier) {
-    CrunchyOutlineButton(
+    var a by remember {
+        mutableStateOf(false)
+    }
+
+    CrunchyButton(
+        enabled = a,
         modifier = modifier,
-        borderColor = Neutral800,
-        textColor = Neutral800,
+        color = Orange400,
+        textColor = Neutral100,
         text = stringResource(id = R.string.create_account).uppercase(),
-        shape = RoundedCornerShape(0),
-        onClick = {}
+        onClick = { a = !a }
+    )
+}
+
+@Composable
+fun HaveAccountConstraintWrapper(modifier: Modifier) {
+    Text(
+        buildAnnotatedString {
+            append("Already have an account? ")
+            withStyle(style = SpanStyle(color = Orange400)) {
+                append("Login")
+            }
+        },
+        modifier = modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center,
+        color = Neutral100,
+        style = Typography.bodySmall,
+        fontWeight = FontWeight(500)
     )
 }

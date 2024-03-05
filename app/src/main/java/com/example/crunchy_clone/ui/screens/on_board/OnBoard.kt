@@ -85,9 +85,10 @@ fun Footer(onRegisterButtonClick: () -> Unit, onLoginButtonClick: () -> Unit) {
         verticalArrangement = Arrangement.Bottom
     ) {
         CrunchyButton(
+            modifier = Modifier,
             color = Orange400,
             text = stringResource(id = R.string.create_account).uppercase(),
-            textColor = Neutral900
+            textColor = Neutral900,
         ) { onRegisterButtonClick() }
         CrunchyOutlineButton(
             modifier = Modifier,

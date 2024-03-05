@@ -8,4 +8,6 @@
     <string name="email">E-mail</string>
     <string name="password">Password</string>
     <string name="subscription_info">Inscreva-se e receba todas as informações, novidades e ofertas da Crunchyroll. Cancele sua inscrição a qualquer momento.</string>
+    <string name="login_button">login</string>
+    <string name="login_welcome">Welcome to Crunchyroll! You can log in using your Crunchyroll or Funimation credentials.</string>
 </resources>
