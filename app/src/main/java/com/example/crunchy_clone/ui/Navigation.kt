@@ -6,9 +6,16 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.List
+import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material.icons.outlined.PlayArrow
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -23,13 +30,16 @@ import com.example.crunchy_clone.ui.screens.on_board.OnBoard
 import com.example.crunchy_clone.ui.theme.Orange400
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.navigation.NavController
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.crunchy_clone.ui.screens.account.AccountScreen
 import com.example.crunchy_clone.ui.screens.catalog.CatalogScreen
 import com.example.crunchy_clone.ui.screens.list.ListScreen
 import com.example.crunchy_clone.ui.screens.simulcasts.SimulcastsScreen
+import com.example.crunchy_clone.ui.theme.Neutral100
+import com.example.crunchy_clone.ui.theme.Neutral900
+import com.example.crunchy_clone.ui.theme.Typography
 
 enum class PublicRoutes {
     OnBoard,
@@ -46,6 +56,38 @@ enum class AppRoutes {
     Account
 }
 
+enum class CrunchyBottomNavigationOption(
+    val label: String,
+    val route: String,
+    val icon: ImageVector
+) {
+    HOME(
+        "Start",
+        route = AppRoutes.Home.name,
+        icon = Icons.Outlined.Home
+    ),
+    LIST(
+        "Lists",
+        route = AppRoutes.Lists.name,
+        icon = Icons.Outlined.List
+    ),
+    CATALOG(
+    "Catalog",
+        route = AppRoutes.Catalog.name,
+        icon = Icons.Outlined.Menu
+    ),
+    SIMULCATS(
+    "Simulcasts",
+        route = AppRoutes.Simulcasts.name,
+        icon = Icons.Outlined.PlayArrow
+    ),
+    ACCOUNT(
+        "Account",
+        route = AppRoutes.Account.name,
+        icon = Icons.Outlined.Settings
+    )
+}
+
 val enabledNavigationBarRoutes = AppRoutes.values().map { it.name };
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,13 +100,30 @@ fun Navigation() {
     Scaffold(
         bottomBar = {
             if (enabledNavigationBarRoutes.contains(currentRoute)) {
-                BottomNavigation {
-                    val a = intArrayOf(1,2,3,4,5)
-                    a.forEach { item ->
+                val items: Array<CrunchyBottomNavigationOption> = CrunchyBottomNavigationOption.values()
+                BottomNavigation(
+                    backgroundColor = Neutral900
+                ) {
+                    items.forEach { item ->
+                        val itemColor = if(currentRoute == item.route) Orange400 else Neutral100
+
                         BottomNavigationItem(
-                            selected = item == 1,
-                            onClick = { /*TODO*/ },
-                            icon = { Icon(Icons.Filled.CheckCircle, contentDescription = null, tint = Orange400 ) }
+                            selected = currentRoute == item.route,
+                            onClick = { navController.navigate(item.route) },
+                            label = {
+                                Text(
+                                    text = item.label,
+                                    fontSize = Typography.labelSmall.fontSize,
+                                    color = itemColor
+                                )
+                            },
+                            icon = {
+                                Icon(
+                                    item.icon,
+                                    contentDescription = item.label,
+                                    tint = itemColor
+                                )
+                            }
                         )
                     }
                 }
@@ -76,6 +135,13 @@ fun Navigation() {
             Modifier.padding(innerPaddingModifier)
         )
     }
+}
+
+@Composable
+fun CrunchyBottomNavigationBar(
+    selected: Boolean = false
+) {
+
 }
 
 @Composable
