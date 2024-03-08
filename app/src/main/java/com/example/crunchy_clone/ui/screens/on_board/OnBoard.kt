@@ -25,11 +25,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.crunchy_clone.R
-import com.example.crunchy_clone.ui.shared.components.CrunchyButton
-import com.example.crunchy_clone.ui.shared.components.CrunchyOutlineButton
-import com.example.crunchy_clone.ui.shared.components.Logo
+import com.example.crunchy_clone.ui.components.CrunchyButton
+import com.example.crunchy_clone.ui.components.CrunchyOutlineButton
+import com.example.crunchy_clone.ui.components.Logo
 import com.example.crunchy_clone.ui.theme.Neutral400
 import com.example.crunchy_clone.ui.theme.Neutral900
 import com.example.crunchy_clone.ui.theme.Orange400

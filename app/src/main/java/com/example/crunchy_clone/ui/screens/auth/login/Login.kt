@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
@@ -32,18 +30,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.crunchy_clone.R
-import com.example.crunchy_clone.ui.shared.components.CrunchyButton
-import com.example.crunchy_clone.ui.shared.components.CrunchyInput
-import com.example.crunchy_clone.ui.shared.components.Logo
+import com.example.crunchy_clone.ui.components.CrunchyButton
+import com.example.crunchy_clone.ui.components.CrunchyInput
+import com.example.crunchy_clone.ui.components.Logo
 import com.example.crunchy_clone.ui.theme.Neutral100
 import com.example.crunchy_clone.ui.theme.Neutral400
 import com.example.crunchy_clone.ui.theme.Neutral900
 import com.example.crunchy_clone.ui.theme.Orange400
 import com.example.crunchy_clone.ui.theme.Typography
 
-@Preview(showBackground = true)
 @Composable
-fun Login() {
+fun Login(onLoginButtonClick: () -> Unit) {
     Surface(
         Modifier
             .background(color = Neutral900)
@@ -56,7 +53,7 @@ fun Login() {
                 .fillMaxSize(),
         ) {
             LoginScreenTitle()
-            LoginScreenContent()
+            LoginScreenContent(onLoginButtonClick)
         }
     }
 }
@@ -74,7 +71,7 @@ fun LoginScreenTitle() {
 }
 
 @Composable
-fun LoginScreenContent() {
+fun LoginScreenContent(onLoginButtonClick: () -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
@@ -103,7 +100,9 @@ fun LoginScreenContent() {
                         top.linkTo(inputContainer.bottom, margin = 20.dp)
                     }
                 )
-                LoginButtonConstraintWrapper(Modifier.constrainAs(button) {
+                LoginButtonConstraintWrapper(
+                    onLoginButtonClick,
+                    Modifier.constrainAs(button) {
                         top.linkTo(terms.bottom, margin = 20.dp)
                     }
                 )
@@ -180,15 +179,15 @@ fun InputConstraintWrapper(modifier: Modifier) {
 fun TermsConstraintWrapper(modifier: Modifier) {
     Text(
         buildAnnotatedString {
-            append("By login with your account, you are agreeign to our ")
+            append("By login with your account, you are agreeign to our")
             withStyle(style = SpanStyle(color = Orange400)) {
                 append("Terms")
             }
             append(" & ")
             withStyle(style = SpanStyle(color = Orange400)) {
-                append("Privacy Policy")
+                append("Privacy Policy ")
             }
-            append(", and you confirm that you are at least 16 years of age")
+            append("and you confirm that you are at least 16 years of age")
         },
         modifier = modifier.fillMaxWidth(),
         textAlign = TextAlign.Center,
@@ -199,7 +198,10 @@ fun TermsConstraintWrapper(modifier: Modifier) {
 }
 
 @Composable
-fun LoginButtonConstraintWrapper(modifier: Modifier) {
+fun LoginButtonConstraintWrapper(
+    onLoginButtonClick: () -> Unit,
+    modifier: Modifier
+) {
     var a by remember {
         mutableStateOf(false)
     }
@@ -210,6 +212,6 @@ fun LoginButtonConstraintWrapper(modifier: Modifier) {
         color = Orange400,
         textColor = Neutral100,
         text = stringResource(id = R.string.login_button).uppercase(),
-        onClick = { a = !a }
+        onClick = { onLoginButtonClick() }
     )
 }
